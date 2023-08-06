@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang='ja'>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block css %}
+    {% endblock css %}
+    {% block js %}
+    {% endblock js %}
+    <title>{% block title %}spin test{% endblock title %}</title>
+
+</head>
+
+<body>
+    {% block content %}
+    {% endblock content %}
+
+    {% block javascript %}
+    {% endblock javascript %}
+</body>
+
+</html>

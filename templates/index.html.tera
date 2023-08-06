@@ -1,0 +1,49 @@
+{% extends 'base' %}
+{% block css %}
+<style type="text/css">
+    body {
+        background-color: black;
+    }
+    #values {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 10%;
+        padding: 5px;
+        background-color: white;
+    }
+    #field {
+        position: relative;
+        max-width: 80%;
+        margin: 0 auto;
+    }
+    img {
+        position: absolute;
+        width: {{ radius }}%;
+    }
+</style>
+{% endblock css %}
+{% block content %}
+<div id="values">
+    <form method="POST" enctype="multipart/form-data">
+        {% if bpm %}
+        <label for="cs">CS:</label><input type="text" name="cs" id="cs" value={{ cs }}>
+        <label for="bpm">BPM:</label><input type="text" name="bpm" id="bpm" value={{ bpm }}>
+        <label for="length">length(1/1):</label><input type="text" name="length" id="length" value={{ length }}>
+        <label for="index">index:</label><input type="text" name="index" id="index" value={{ index }}>
+        <input type="submit" value="変更">
+        {% else %}
+        <label for="cs">CS:</label><input type="text" name="cs" id="cs" value="4.0">
+        <label for="bpm">BPM:</label><input type="text" name="bpm" id="bpm" value="150.0">
+        <label for="length">length(1/1):</label><input type="text" name="length" id="length" value="8">
+        <label for="index">index:</label><input type="text" name="index" id="index" value="0">
+        <input type="submit" value="変更">
+        {% endif %}
+    </form>
+</div>
+<div id="field">
+    {% for x in x_list %}
+    <img src="assets/fruit-bananas.png" style="left: {{ x }}%; top: {{ loop.index * y }}px;">
+    {% endfor %}
+</div>
+{% endblock content %}

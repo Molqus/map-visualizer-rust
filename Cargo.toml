@@ -1,0 +1,12 @@
+[package]
+name = "map-visualizer"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+osu = "0.2"
+plotters = "0.3.5"
+rocket = { version = "=0.5.0-rc.3" }
+rocket_dyn_templates = { version = "=0.1.0-rc.3", features = ["tera"] }
