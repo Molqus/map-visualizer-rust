@@ -8,7 +8,8 @@ use rocket_dyn_templates::{context, Template};
 
 #[derive(FromForm)]
 pub struct MapData {
-    // The raw, undecoded value. You _probably_ want `String` instead.
+    // #[field(validate = with(|p| p <= &10.0, "CSは10以下で設定してください"))]
+    // #[field(validate = with(|p| p >= &0.0, "CSは0以上で設定してください"))]
     cs: f64,
     bpm: f64,
     length: i32,
@@ -19,7 +20,6 @@ pub struct MapData {
 pub fn vis() -> Template {
     let (x, offset_y, fruits_radius) = draw_data(150.0, 0, 4.0, 16);
     let x_reversed: Vec<&f64> = x.iter().rev().collect();
-    println!("{:?}", x_reversed);
     Template::render(
         "index",
         context! {
@@ -55,4 +55,19 @@ fn rocket() -> _ {
         .mount("/", routes![vis, vis_post])
         .mount("/assets", FileServer::from(relative!("assets")))
         .attach(Template::fairing())
+}
+
+#[cfg(test)]
+mod test {
+    use super::rocket;
+    use rocket::http::Status;
+    use rocket::local::blocking::Client;
+    use rocket::uri;
+
+    #[test]
+    fn test_vis() {
+        let client: Client = Client::tracked(rocket()).expect("valid rocket instance");
+        let response = client.get(uri!("/")).dispatch();
+        assert_eq!(response.status(), Status::Ok);
+    }
 }

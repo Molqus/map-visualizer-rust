@@ -12,7 +12,7 @@ pub struct LegacyRandom {
 impl LegacyRandom {
     pub fn new(x: u32) -> LegacyRandom {
         LegacyRandom {
-            x: x,
+            x,
             y: 842502087,
             z: 3579807591,
             w: 273326509,
@@ -31,7 +31,7 @@ impl LegacyRandom {
         self.w = self.w ^ (self.w >> 19) ^ t ^ (t >> 8);
         self.w
     }
-    pub fn next(&mut self) -> i32 {
+    pub fn next_rand(&mut self) -> i32 {
         (self.int_mask & self.next_uint()) as i32
     }
     pub fn next_upper_bound(&mut self, upper_bound: i32) -> i32 {
@@ -44,7 +44,7 @@ impl LegacyRandom {
         (lower_bound + self.next_double() * (upper_bound - lower_bound)) as i32
     }
     pub fn next_double(&mut self) -> f64 {
-        self.int_to_real * self.next() as f64
+        self.int_to_real * self.next_rand() as f64
     }
     pub fn next_bool(&mut self) -> bool {
         if self.bit_index == 32 {
