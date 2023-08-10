@@ -1,25 +1,25 @@
 use super::legacy_random::LegacyRandom;
-use plotters::coord::types::*;
-use plotters::prelude::*;
+// use plotters::coord::types::*;
+// use plotters::prelude::*;
 
-fn draw(data: [(f64, i32); 32]) {
-    let root_area: DrawingArea<BitMapBackend<'_>, plotters::coord::Shift> =
-        BitMapBackend::new("test.png", (1024, 768)).into_drawing_area();
-    root_area.fill(&WHITE).unwrap();
+// fn draw(data: [(f64, i32); 32]) {
+//     let root_area: DrawingArea<BitMapBackend<'_>, plotters::coord::Shift> =
+//         BitMapBackend::new("test.png", (1024, 768)).into_drawing_area();
+//     root_area.fill(&WHITE).unwrap();
 
-    let mut ctx: ChartContext<'_, BitMapBackend<'_>, Cartesian2d<RangedCoordf64, RangedCoordi32>> =
-        ChartBuilder::on(&root_area)
-            .set_label_area_size(LabelAreaPosition::Left, 40)
-            .set_label_area_size(LabelAreaPosition::Bottom, 40)
-            .caption("Scatter Demo", ("sans-serif", 40))
-            .build_cartesian_2d(0.0..512.0, 0..128)
-            .unwrap();
+//     let mut ctx: ChartContext<'_, BitMapBackend<'_>, Cartesian2d<RangedCoordf64, RangedCoordi32>> =
+//         ChartBuilder::on(&root_area)
+//             .set_label_area_size(LabelAreaPosition::Left, 40)
+//             .set_label_area_size(LabelAreaPosition::Bottom, 40)
+//             .caption("Scatter Demo", ("sans-serif", 40))
+//             .build_cartesian_2d(0.0..512.0, 0..128)
+//             .unwrap();
 
-    ctx.configure_mesh().draw().unwrap();
+//     ctx.configure_mesh().draw().unwrap();
 
-    ctx.draw_series(data.iter().map(|point| Circle::new(*point, 5, &BLUE)))
-        .unwrap();
-}
+//     ctx.draw_series(data.iter().map(|point| Circle::new(*point, 5, &BLUE)))
+//         .unwrap();
+// }
 
 pub fn draw_data(bpm: f64, idx: i32, cs: f64, length: i32) -> (Vec<f64>, f64, f64) {
     const RNG_SEED: u32 = 1337;
@@ -34,16 +34,16 @@ pub fn draw_data(bpm: f64, idx: i32, cs: f64, length: i32) -> (Vec<f64>, f64, f6
     }
 
     for _ in 0..idx {
-        test_rand.next();
+        test_rand.next_rand();
     }
 
     let mut data: Vec<f64> = Vec::new();
     for _ in 0..banana_counts {
         let t: f64 = test_rand.next_double() * 100.0;
         data.push(t);
-        test_rand.next();
-        test_rand.next();
-        test_rand.next();
+        test_rand.next_rand();
+        test_rand.next_rand();
+        test_rand.next_rand();
     }
 
     // 64 * (1.0 - 0.7 * (cs - 5) / 5) / 2
