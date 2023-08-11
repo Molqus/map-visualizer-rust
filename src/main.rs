@@ -1,9 +1,7 @@
+use std::path::PathBuf;
+
 use map_visualizer::random::draw::draw_data;
-use rocket::{
-    form::Form,
-    fs::{relative, FileServer},
-    get, post, routes, FromForm,
-};
+use rocket::{form::Form, fs::FileServer, get, post, routes, FromForm};
 use rocket_dyn_templates::{context, Template};
 
 #[derive(FromForm)]
@@ -50,10 +48,14 @@ pub fn vis_post(map_data: Form<MapData>) -> Template {
 }
 
 #[shuttle_runtime::main]
-async fn rocket() -> shuttle_rocket::ShuttleRocket {
-    let rocket = rocket::build()
+async fn rocket(
+    #[shuttle_static_folder::StaticFolder(folder = "assets")] static_folder: PathBuf,
+    #[shuttle_static_folder::StaticFolder(folder = "templates")] template_folder: PathBuf,
+) -> shuttle_rocket::ShuttleRocket {
+    let figment = rocket::Config::figment().merge(("template_dir", template_folder));
+    let rocket = rocket::custom(figment)
         .mount("/", routes![vis, vis_post])
-        .mount("/assets", FileServer::from(relative!("assets")))
+        .mount("/assets", FileServer::from(static_folder))
         .attach(Template::fairing());
     Ok(rocket.into())
 }
